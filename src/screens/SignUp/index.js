@@ -10,7 +10,10 @@ import {
   Image, ImageBackground,
   TextInput,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Modal,
+  FlatList,
+  RefreshControl
 
 } from 'react-native'
 import { connect } from 'react-redux'
@@ -20,11 +23,13 @@ import { loginSuccess } from '../../actions'
 import { CommonActions } from "@react-navigation/native";
 import ButtonTextCommon from '../../components/ButtonTextCommon'
 import TextComponent from '../../components/TextComponent'
-
+import CameraRoll from "@react-native-community/cameraroll";
 import { images } from '../../boot/image'
 import BaseScreen from '../BaseScreen'
-import RowComponent from '../../components/RowComponent';
-import CheckBox from 'react-native-check-box'
+import HeaderBack from '../../components/HeaderBack';
+import ContainerView from '../../components/ContainerView';
+import AvatarComponent from '../../components/AvatarComponent';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { Colors } from '../../comon'
 
 class SignUp extends PureComponent {
@@ -32,10 +37,20 @@ class SignUp extends PureComponent {
     super(props)
 
     this.state = {
-      email: '',
+      id: '',
       password: '',
-      isChecked: false,
-      showPass:false
+      confirmPassword: '',
+      name:'',
+    
+      modalVisible: false,
+      photoList: [],
+      newAvatarUrl: '',
+      isLoading: false,
+      page: 0,
+      hasNextPage: false,
+      refreshing:false
+      
+     
     }
   }
 
@@ -64,7 +79,7 @@ class SignUp extends PureComponent {
 
 
   }
-  login = async () => {
+  signUp = async () => {
     // let email = 'leuducquy@gmail.com'
     // let password = 'Pimpim123@'
 
@@ -113,38 +128,62 @@ class SignUp extends PureComponent {
       })
     }
   }
+  getPhoto = async () => {
+    const { page } = this.state;
+    try {
+      const result = await CameraRoll.getPhotos({ first: 18 * (page + 1), assetType: 'Photos'});
+      console.tron.display({
+      name: `getPhoto`,
+       preview :``,
+      value: {
+      state: result
+      }
+      })
+      
 
+      this.setState({
+        modalVisible: true,
+        photoList: result.edges,
+        page: page + 1,
+        hasNextPage: result.page_info.has_next_page,
+        refreshing: false
+      });
+    } catch (error) {
+      console.tron.display({
+        name: `getPhoto error `,
+         preview :``,
+        value: {
+        state: error
+        }
+      
+        })
+    }
+  };
+  changeAvatar=()=>{
 
-
+  }
+  closeModal = () => {
+    this.setState({ modalVisible: false });
+  }
   render() {
-    const { email, password } = this.state
+    const { email, password ,refreshing,modalVisible,photoList} = this.state
 
     return (
       <BaseScreen>
-        <ImageBackground
-          source={images.homeBackGround}
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            paddingTop: 200
-          }}>
+     
+      <HeaderBack
+        text={`Sign Up`}
+      />
+      <ContainerView>
+
+      
+    
         
-          <TextComponent
-            textStyle={styles.signIn}
-            containerStyle={{
-            
-              alignSelf:'center'
-            }}
-            text={`Spreech to recognition`}
-          />
-          <TextComponent
-            containerStyle={{
-              marginTop: 20,
-              marginBottom: 60
-            }}
-            text={`conference`}
-          />
+         
           <View>
+          <AvatarComponent
+            onPress={this.getPhoto}
+          />
             <TextInput
              autoCapitalize={'none'}
               value={this.state.email}
@@ -185,9 +224,65 @@ class SignUp extends PureComponent {
           containerStyle={styles.signup}
           underline={true}
           text={`SIGN UP`} textStyle={styles.footerText}/>
-    
-         
-        </ImageBackground>
+          <Modal
+          animationType="slide"
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => {
+            this.setState({ modalVisible: false });
+          }}
+        >
+          <View style={{ flex: 1 }}>
+            <View style={styles.headerContainer}>
+              <TouchableOpacity style={styles.leftHeaderContainer} onPress={this.closeModal}>
+                <Icon name="ios-close" size={35} />
+              </TouchableOpacity>
+              <View style={styles.centerHeaderContainer}>
+                <Text style={styles.centerHeaderStyle}>
+                  {`Your library`}
+                </Text>
+              </View>
+            </View>
+            <FlatList
+              data={photoList}
+              style={{ flex: 1 }}
+              columnWrapperStyle={{ justifyContent: 'space-evenly' }}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.photoContainer}
+                  onPress={() => this.onChoosePhoto(item.node.image.uri)}
+                >
+                  <Image source={{ uri: item.node.image.uri }} style={styles.photoStyle} />
+                </TouchableOpacity>
+              )}
+              keyExtractor={item => `${item.node.timestamp}`}
+              numColumns={3}
+             
+              refreshing={refreshing}
+              onEndReached={this.loadmore}
+              onEndReachedThreshold={
+                // eslint-disable-next-line
+                photoList && photoList.length > 18 && photoList.length % 18 === 0 ? 0.1 : null
+              }
+              onScrollBeginDrag={() => {
+                this.onEndReachedCalledDuringMomentum = true;
+              }}
+              refreshControl={(
+                <RefreshControl
+                  refreshing={refreshing}
+                  tintColor={Colors.theme}
+                  colors={[Colors.theme]}
+                  onRefresh={() => {
+                    this.setState({ page: 0 }, () => {
+                      this.getPhoto();
+                    });
+                  }}
+                />
+)}
+            />
+          </View>
+        </Modal>
+          </ContainerView>
       </BaseScreen>
 
     )

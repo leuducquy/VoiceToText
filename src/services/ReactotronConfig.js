@@ -1,7 +1,7 @@
 import Reactotron, { overlay, openInEditor } from 'reactotron-react-native'
 
 // https://github.com/infinitered/reactotron for more options!
-Reactotron.configure({ host: '192.168.1.13', name: 'Merchant app' })
+Reactotron.configure({ host: '172.16.1.61', name: 'Voice app' })
   .use(openInEditor())
   .useReactNative()
   .connect()

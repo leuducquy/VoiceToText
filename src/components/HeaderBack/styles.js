@@ -7,15 +7,19 @@ const styles = StyleSheet.create({
   container: {
 
         width: d.windowSize.width,
-        height: d.navBarHeight,
+        height: 50,
        flexDirection: `row`,
         alignItems: 'center',
       
-        backgroundColor: '#fff',
+        backgroundColor: Colors.baseGreen,
         justifyContent: 'space-between',
         borderColor: Colors.borderSecond,
         borderBottomWidth:0.5
    
+  },
+  image:{
+    width:15,
+    height: 20
   },
   headerComponent: {
     flexDirection: 'row',
@@ -58,6 +62,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: '100%'
     // width: d.windowSize.width * 0.09,
+  },
+  text:{
+    color:Colors.white
   }
 });
 

@@ -10,10 +10,7 @@
     
   
    
-    backgroundColor:Colors.white,
-    padding: 10,  height: 44,
-    paddingLeft:10,
-    paddingRight:10,
+   
     justifyContent: `center`,
     alignItems: `center`
    },

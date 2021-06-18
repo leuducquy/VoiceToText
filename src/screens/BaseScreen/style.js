@@ -4,7 +4,8 @@ import * as d from '../../comon/Transform'
 const styles = {
   container:{
     flex:1,
-    backgroundColor: Colors.baseBlack
+    backgroundColor: Colors.white,
+  
   },
   text:{
     fontSize: 30,

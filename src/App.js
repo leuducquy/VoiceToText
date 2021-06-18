@@ -7,7 +7,6 @@ import SignUp from './screens/SignUp'
 
 import AuthLoadingScreen from './screens/AuthLoadingScreen'
 
-import TabNavigator from './tab'
 import { connect } from 'react-redux'
 
 const Stack = createStackNavigator()
@@ -19,7 +18,7 @@ class App extends Component {
     return (
       <NavigationContainer>
         {isLogin ? (
-          <TabNavigator />
+        null
         ) : (
           <Stack.Navigator
             // initialRouteName="AuthLoadingScreen"

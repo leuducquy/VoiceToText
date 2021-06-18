@@ -14,6 +14,8 @@ target 'VoiceToText' do
 
   pod 'toolbar-android', :path => '../node_modules/@react-native-community/toolbar-android'
 
+  pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
+
   target 'VoiceToTextTests' do
     inherit! :complete
     # Pods for testing

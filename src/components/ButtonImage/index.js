@@ -6,13 +6,12 @@ import styles from './style'
 export default class ButtonImage extends Component {
   render() {
     const {
-      text,
-      textStyle,
+     
       containerStyle,
       onPress,
-      numberOfLines = 0,
+     
       disabled = false,
-      isFull = true,
+      imageStyle,
       source
     } = this.props
     return (
@@ -22,6 +21,8 @@ export default class ButtonImage extends Component {
         onPress={() => onPress()}
       >
        <Image
+       resizeMode={'contain'}
+       style={[styles.image,imageStyle]}
         source={source}/>
       </TouchableOpacity>
     )

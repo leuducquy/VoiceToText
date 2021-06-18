@@ -68,6 +68,36 @@ const styles = {
   textInput:{
     color:Colors.white
   },
-  
+  modalContainer: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  headerContainer: {
+    height: 60 * d.ratioH,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: d.windowSize.width,
+    marginTop: d.statusBarHeight,
+    flexDirection: 'row'
+  },
+  leftHeaderContainer: {
+    padding: 15
+  },
+  centerHeaderContainer: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: -1
+  },
+  centerHeaderStyle: {
+    fontSize: 16 * d.ratioW,
+    color: Colors.textNew,
+    fontWeight: 'bold',
+    position: 'absolute',
+    fontFamily: Fonts.regular
+  },
+  listPhotoContainer: { width: d.windowSize.width * 0.99 },
 };
 export default styles;

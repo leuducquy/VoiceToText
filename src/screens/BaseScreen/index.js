@@ -26,10 +26,7 @@ class BaseScreen extends PureComponent {
   constructor (props) {
     super(props)
    
-    this.state = {
-      userName:'',
-      password:''
-    }
+   
   }
 
  

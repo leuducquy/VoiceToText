@@ -34,7 +34,8 @@ const Colors = {
     baseColor:'#F78F2D',
     policy:'#A9A9A9',
     greyBackGround:'rgb(215,221,230)',
-    placeHolderText:'#9facbf'
+    placeHolderText:'#9facbf',
+    baseGreen:'rgb(67,79,231)'
     
   
     
